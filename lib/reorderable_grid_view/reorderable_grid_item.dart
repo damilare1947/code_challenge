@@ -7,6 +7,7 @@ class ReorderableGridItem extends StatefulWidget {
   double widthFlex;
   bool allowDrag;
   int? orderNumber;
+  bool? animate;
 
   setOrderNumber(int newOrderNumber) {
     this.orderNumber ??= newOrderNumber;
@@ -18,6 +19,7 @@ class ReorderableGridItem extends StatefulWidget {
     this.key,
     this.orderNumber,
     this.allowDrag = true,
+    this.animate=false,
   });
 
   ReorderableGridItem copyWith({
@@ -26,6 +28,7 @@ class ReorderableGridItem extends StatefulWidget {
     double? widthFlex,
     bool? allowDrag,
     int? orderNumber,
+    bool? animate,
   }) {
     return ReorderableGridItem(
       child: child ?? this.child,
@@ -33,26 +36,26 @@ class ReorderableGridItem extends StatefulWidget {
       orderNumber: orderNumber ?? this.orderNumber,
       widthFlex: widthFlex ?? this.widthFlex,
       allowDrag: allowDrag ?? this.allowDrag,
+      animate: animate ?? this.animate,
     );
   }
-
   @override
   _ReorderableGridItemState createState() => _ReorderableGridItemState();
 }
 
 class _ReorderableGridItemState extends State<ReorderableGridItem> {
-  late double _screenWidth;
+   late double _screenWidth;
   @override
   Widget build(BuildContext context) {
     _screenWidth = MediaQuery.of(context).size.width;
-    return Container(
-      key: GlobalKey(),
-      width: _screenWidth * widget.widthFlex,
-      // height: (_screenWidth * widget.widthFlex) * widget.aspectRatio,
-      child: Material(
-        color: Colors.transparent,
-        child: widget.child,
-      ),
-    );
+   return   Container(
+        key: GlobalKey(),
+        width: _screenWidth * widget.widthFlex,
+        // height: (_screenWidth * widget.widthFlex) * widget.aspectRatio,
+        child: Material(
+          color: Colors.transparent,
+          child: widget.child,
+        ),
+      );
   }
 }

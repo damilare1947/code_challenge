@@ -563,6 +563,31 @@ class DragItem extends StatefulWidget {
 
 class _DragItemState extends State<DragItem> {
   bool isDragging = false;
+  bool _changeHeight = false;
+  @override
+  void initState() {
+    if(widget.child!.animate!){
+      _startTimer();
+    }
+    // TODO: implement initState
+    super.initState();
+  }
+  void _startTimer() {
+       Timer.periodic(const Duration(seconds: 1), (Timer t) {
+        if(mounted){
+          setState(() {
+            _changeHeight = !_changeHeight;
+          });
+        }
+        else{
+          if (!mounted) {
+            return;
+          }
+
+        }
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Object>(
@@ -603,7 +628,13 @@ class _DragItemState extends State<DragItem> {
                     this.widget.onDragEnd!(widget, details: details);
                   }
                 },
-                child: widget.child,
+                child:
+                widget.child!.animate!?
+                AnimatedContainer(
+                    duration: const Duration(milliseconds: 700),
+                    curve: Curves.easeInOut,
+                    height: _changeHeight ? 75 : 150,
+                    child: widget.child):widget.child,
               ),
             ),
           );
